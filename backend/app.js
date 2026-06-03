@@ -16,5 +16,6 @@ mongoose
     .catch((err) => console.error("Erreur de connexion MongoDB :", err));
 
 app.use("/api/books", booksRoute);
+app.use("/api/auth", userRouter);
 
 module.exports = app;
