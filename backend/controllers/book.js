@@ -74,12 +74,12 @@ exports.getBestRating = async (req, res) => {
 exports.rateBook = async (req, res) => {
     try {
         const book = await Book.findById(req.params.id);
-        if (book.ratings.find((r) => r.userId === req.auth.userId)) {
+        if (book.ratings.find((rating) => rating.userId === req.auth.userId)) {
             return res.status(400).json({ message: "Déjà noté" });
         }
         book.ratings.push({ userId: req.auth.userId, grade: req.body.rating });
         book.averageRating =
-            book.ratings.reduce((sum, r) => sum + r.grade, 0) /
+            book.ratings.reduce((sum, rating) => sum + rating.grade, 0) /
             book.ratings.length;
         const updatedBook = await Book.findByIdAndUpdate(req.params.id, book, {
             new: true,
