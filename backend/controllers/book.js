@@ -52,6 +52,11 @@ exports.updateBook = async (req, res) => {
             return res.status(401).json({ message: "Non autorisé" });
         }
 
+        if (req.file) {
+            const filename = book.imageUrl.split("/images/")[1];
+            await fs.promises.unlink(`images/${filename}`);
+        }
+
         await Book.findByIdAndUpdate(req.params.id, {
             ...bookParse,
             _id: req.params.id,
